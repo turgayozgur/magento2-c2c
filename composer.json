@@ -1,0 +1,18 @@
+{
+  "name": "turgayozgur/c2c",
+  "description": "Magento2 customer to customer(c2c) marketplace module.",
+  "require": {
+    "php": "5.4.*|5.5.*",
+    "magento/magento-composer-installer": "*"
+  },
+  "type": "magento2-module",
+  "version": "2.0.0",
+  "extra": {
+    "map": [
+      [
+        "*",
+        "TurgayOzgur/C2C"
+      ]
+    ]
+  }
+}

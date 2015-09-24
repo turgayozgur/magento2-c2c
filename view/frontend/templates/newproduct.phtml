@@ -1,0 +1,44 @@
+<form class="form contact"
+      action="<?php echo $block->getFormAction(); ?>"
+      id="newproduct-form"
+      method="post"
+      enctype="multipart/form-data"
+      data-hasrequired="<?php echo __('* Required Fields') ?>"
+      data-mage-init='{"validation":{}}'>
+    <fieldset class="fieldset">
+        <legend class="legend"><span><?php echo __('Create Your Own Product') ?></span></legend><br />
+        <div class="field name required">
+            <label class="label" for="name"><span><?php echo __('Product Name') ?></span></label>
+            <div class="control">
+                <input name="product[name]" id="name" title="<?php echo __('Product Name') ?>" class="input-text" type="text" data-validate="{required:true}"/>
+            </div>
+        </div>
+        <div class="field required">
+            <label class="label" for="description"><span><?php echo __('Description') ?></span></label>
+            <div class="control">
+                <textarea name="product[description]" id="description" title="<?php echo __('Description') ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
+            </div>
+        </div>
+        <div class="field required">
+            <label class="label" for="price"><span><?php echo __('Price') ?></span></label>
+            <div class="control">
+                <input name="product[price]" id="price" title="<?php echo __('Price') ?>" class="input-text" type="number" data-validate="{required:true}"/>
+                <label class="addafter" for="price">Euro</label>
+            </div>
+        </div>
+        <div class="field required">
+            <label class="label" for="image"><span><?php echo __('Image') ?></span></label>
+            <div class="control">
+                <input name="image" id="image" title="<?php echo __('Image') ?>" type="file" data-validate="{required:true}"/>
+            </div>
+        </div>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <input type="hidden" name="hideit" id="hideit" value="" />
+            <button type="submit" title="<?php echo __('Submit') ?>" class="action submit primary">
+                <span><?php echo __('Submit') ?></span>
+            </button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="customer_account_navigation">
+            <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-products-link">
+                <arguments>
+                    <argument name="path" xsi:type="string">C2C/customerproducts</argument>
+                    <argument name="label" xsi:type="string">My Products</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

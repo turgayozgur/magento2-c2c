@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <head>
+        <title>
+            My Products
+        </title>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="TurgayOzgur\C2C\Block\ProductList" name="c2c.customer.products" template="TurgayOzgur_C2C::customerproducts.phtml"/>
+            <block class="Magento\Customer\Block\Account\Dashboard" name="customer.account.link.back" template="account/link/back.phtml" cacheable="false"/>
+        </referenceContainer>
+    </body>
+</page>

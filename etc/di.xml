@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\Catalog\Model\Product" type="TurgayOzgur\C2C\Model\ProductFromCustomer" />
+    <preference for="Magento\Catalog\Model\Resource\Product" type="TurgayOzgur\C2C\Model\Resource\ProductFromCustomer" />
+</config>
