@@ -1,14 +1,17 @@
 <?xml version="1.0"?>
 
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
     <head>
         <title>
-            C2C
+            Add New Product
         </title>
+        <link src="TurgayOzgur_C2C::js/dropzone.js"/>
+        <css src="TurgayOzgur_C2C::css/dropzone.css"/>
     </head>
     <body>
         <referenceContainer name="content">
-            <block class="TurgayOzgur\C2C\Block\NewProductForm" template="TurgayOzgur_C2C::newproduct.phtml"/>
+            <block class="TurgayOzgur\C2C\Block\NewProductForm" name="turgayozgur.newproduct" template="TurgayOzgur_C2C::newproduct.phtml"/>
         </referenceContainer>
     </body>
 </page>

@@ -6,7 +6,6 @@
       data-hasrequired="<?php echo __('* Required Fields') ?>"
       data-mage-init='{"validation":{}}'>
     <fieldset class="fieldset">
-        <legend class="legend"><span><?php echo __('Create Your Own Product') ?></span></legend><br />
         <div class="field name required">
             <label class="label" for="name"><span><?php echo __('Product Name') ?></span></label>
             <div class="control">
@@ -26,13 +25,10 @@
                 <label class="addafter" for="price">Euro</label>
             </div>
         </div>
-        <div class="field required">
-            <label class="label" for="image"><span><?php echo __('Image') ?></span></label>
-            <div class="control">
-                <input name="image" id="image" title="<?php echo __('Image') ?>" type="file" data-validate="{required:true}"/>
-            </div>
-        </div>
     </fieldset>
+    <div id="product-images">
+        <!-- hidden inputs here -->
+    </div>
     <div class="actions-toolbar">
         <div class="primary">
             <input type="hidden" name="hideit" id="hideit" value="" />
@@ -42,3 +38,27 @@
         </div>
     </div>
 </form>
+
+<br/>
+<br/>
+<form action="<?php echo $block->getImageUploadAction() ?>"
+      class="dropzone"
+      id="my-awesome-dropzone">
+    <input type="file" name="file" hidden="hidden"/>
+</form>
+
+<script type="text/javascript">
+
+    require(["jquery"], function($) {
+        // The recommended way from within the init configuration:
+        Dropzone.options.myAwesomeDropzone = {
+            init: function () {
+                this.on("success", function (file, result) {
+                    $('#product-images').append('<input type="text" name="image[]" value="' + result.path + '" hidden="hidden"/>')
+                });
+            },
+            addRemoveLinks: true
+        };
+    });
+
+</script>

@@ -32,4 +32,14 @@ class NewProductForm extends Template
     {
         return $this->_urlBuilder->getUrl('C2C/index/post');
     }
+
+    /**
+     * Return the desired URL of a new product image post action
+     *
+     * @return string
+     */
+    public function getImageUploadAction()
+    {
+        return $this->_urlBuilder->getUrl('C2C/index/image');
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace TurgayOzgur\C2C\Controller\CustomerProducts;
 
-class Index extends \TurgayOzgur\C2C\Controller\Index
+class Index extends \TurgayOzgur\C2C\Controller\CustomerProducts
 {
     /**
      * Load the page defined in view/frontend/layout/c2c_customer_products_index.xml

@@ -6,7 +6,6 @@ use Magento\Framework\App\Action\Context as ActionContext;
 use Magento\Catalog\Controller\Adminhtml\Product\Builder as ProductBuilder;
 use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper as ProductInitializationHelper;
 use Magento\Framework\View\Result\PageFactory;
-use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Post extends \TurgayOzgur\C2C\Controller\Index
 {
@@ -26,20 +25,6 @@ class Post extends \TurgayOzgur\C2C\Controller\Index
     protected $productTypeManager;
 
     /**
-     * File Uploader factory
-     *
-     * @var \Magento\MediaStorage\Model\File\UploaderFactory
-     */
-    protected $_fileUploaderFactory;
-
-    /**
-     * Filesystem facade
-     *
-     * @var \Magento\Framework\Filesystem
-     */
-    protected $_filesystem;
-
-    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Catalog\Controller\Adminhtml\Product\Builder $productBuilder
      * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper
@@ -51,16 +36,12 @@ class Post extends \TurgayOzgur\C2C\Controller\Index
         ProductBuilder $productBuilder,
         ProductInitializationHelper $initializationHelper,
         PageFactory $resultPageFactory,
-        \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager,
-        \Magento\MediaStorage\Model\File\UploaderFactory $fileUploaderFactory,
-        \Magento\Framework\Filesystem $filesystem
+        \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
     )
     {
         $this->initializationHelper = $initializationHelper;
         $this->productBuilder = $productBuilder;
         $this->productTypeManager = $productTypeManager;
-        $this->_fileUploaderFactory = $fileUploaderFactory;
-        $this->_filesystem = $filesystem;
         parent::__construct($context, $resultPageFactory);
     }
 
@@ -80,34 +61,32 @@ class Post extends \TurgayOzgur\C2C\Controller\Index
             return $resultRedirect;
         }
 
-        /** @var $uploader \Magento\MediaStorage\Model\File\Uploader */
-        $uploader = $this->_fileUploaderFactory->create(['fileId' => 'image']);
-        $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
-        $uploader->setAllowRenameFiles(true);
-        $uploader->setFilesDispersion(true);
-
-        $path = $this->_filesystem->getDirectoryRead(
-            DirectoryList::MEDIA
-        )->getAbsolutePath(
-            'catalog/product/'
-        );
-        $uploader->save($path);
-
         /** @var \TurgayOzgur\C2C\Model\ProductFromCustomer $product */
         $product = $this->initializationHelper->initialize($this->productBuilder->build($request));
         $this->productTypeManager->processProduct($product);
 
-        $product->setTypeId('simple');
+        $imagePaths = $request->getParam('image');
+
+        if ($imagePaths)
+        {
+            $isFirst = true;
+            foreach($imagePaths as $path)
+            {
+                $product->addImageToMediaGallery($path, $isFirst ? ['image', 'small_image', 'thumbnail'] : null, false, false);
+                $isFirst = false;
+            }
+        }
+
+        $product->setTypeId('simple'); // Simple.
         $product->setAttributeSetId(4); // Default.
+        $product->setStatus(1); // 1 - Enable, 2 - Disable.
+        $product->setVisibility(4);
         $product->setSku($product->getName());
         $product->setCustomerId($this->_getSession()->getCustomerId());
-        $product->setVisibility(4);
-
-        $product->addImageToMediaGallery($path . $uploader->getUploadedFileName(), ['image', 'small_image', 'thumbnail'], false, false);
 
         $product->save();
 
-        $resultRedirect->setPath('C2C');
+        $resultRedirect->setPath('C2C/customerproducts');
         return $resultRedirect;
     }
 

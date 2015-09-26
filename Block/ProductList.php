@@ -13,6 +13,7 @@ use Magento\Framework\App\Http\Context as HttpContext;
 use Magento\Rule\Model\Condition\Sql\Builder;
 use Magento\CatalogWidget\Model\Rule;
 use Magento\Widget\Helper\Conditions;
+use Magento\Customer\Model\Session as CustomerSession;
 
 /**
  * Class ProductList
@@ -35,6 +36,13 @@ class ProductList extends \Magento\CatalogWidget\Block\Product\ProductsList
     private $filterBuilder;
 
     /**
+     * Customer session model
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param ProductRepositoryInterface $productRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param FilterBuilder $filterBuilder
@@ -45,6 +53,7 @@ class ProductList extends \Magento\CatalogWidget\Block\Product\ProductsList
      * @param \Magento\Rule\Model\Condition\Sql\Builder $sqlBuilder
      * @param \Magento\CatalogWidget\Model\Rule $rule
      * @param \Magento\Widget\Helper\Conditions $conditionsHelper
+     * @param CustomerSession $customerSession
      * @param array $data
      */
     public function __construct(
@@ -58,6 +67,7 @@ class ProductList extends \Magento\CatalogWidget\Block\Product\ProductsList
         Builder $sqlBuilder,
         Rule $rule,
         Conditions $conditionsHelper,
+        CustomerSession $customerSession,
         array $data = []
     ) {
         parent::__construct($context,
@@ -71,6 +81,7 @@ class ProductList extends \Magento\CatalogWidget\Block\Product\ProductsList
         $this->productRepository = $productRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->filterBuilder = $filterBuilder;
+        $this->_customerSession = $customerSession;
     }
 
     /**
@@ -90,7 +101,7 @@ class ProductList extends \Magento\CatalogWidget\Block\Product\ProductsList
     {
         $typeFilter = $this->filterBuilder
             ->setField(ProductFromCustomerInterface::CUSTOMER_ID)
-            ->setValue(2)
+            ->setValue($this->_customerSession->getCustomerId())
             ->create();
         $filters[] = $typeFilter;
 
@@ -104,5 +115,15 @@ class ProductList extends \Magento\CatalogWidget\Block\Product\ProductsList
     private function buildSearchCriteria(array $filters)
     {
         return $this->searchCriteriaBuilder->addFilters($filters)->create();
+    }
+
+    /**
+     * Return the desired URL of a new product post action
+     *
+     * @return string
+     */
+    public function getNewProductFormAction()
+    {
+        return $this->_urlBuilder->getUrl('C2C/index/post');
     }
 }
